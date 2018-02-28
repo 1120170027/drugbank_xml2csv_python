@@ -1,0 +1,79 @@
+
+####### ./drug2carrier.csv #######
+
+substrate 83
+binder 37
+other/unknown 20
+inhibitor 6
+carrier 6
+
+####### ./drug2enzyme.csv #######
+
+substrate 2572
+inhibitor 1548
+inducer 452
+cofactor 17
+activator 6
+catalytic activity 3
+other 3
+inactivator 1
+oxidorectase activity 1
+downregulator 1
+conversion inhibitor 1
+other (add new) 1
+
+####### ./drug2target.csv #######
+
+inhibitor 1990
+antagonist 1501
+agonist 967
+potentiator 413
+binder 230
+cofactor 126
+activator 100
+ligand 99
+other/unknown 85
+partial agonist 73
+inducer 67
+other 46
+antibody 43
+positive allosteric modulator 42
+unknown 31
+negative modulator 30
+product of 27
+allosteric modulator 23
+modulator 22
+blocker 19
+inverse agonist 16
+adduct 14
+multitarget 12
+stimulator 11
+binding 11
+substrate 6
+cleavage 6
+suppressor 4
+chaperone 4
+oxidizer 3
+neutralizer 2
+partial antagonist 2
+aggregation inhibitor 1
+antisense oligonucleotide 1
+desensitize the target 1
+nucleotide exchange blocker 1
+inactivator 1
+component of 1
+positive modulator 1
+inhibitory immune response 1
+acetylation 1
+inhibitory allosteric modulator 1
+weak inhibitor 1
+
+####### ./drug2transporter.csv #######
+
+inhibitor 1161
+substrate 935
+inducer 103
+transporter 8
+other 4
+weak inhibitor 3
+antagonist 1
