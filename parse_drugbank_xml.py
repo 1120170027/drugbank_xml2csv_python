@@ -183,20 +183,15 @@ outfh = open('drug2target_human.csv', 'w')
 writer = csv.writer(outf)
 writerh = csv.writer(outfh)
 
-target_actions_to_write = ['inhibitor', 'antagonist', 'agonist']
-writer.writerow(['drugbank_id', 'partner_id'] + target_actions_to_write)
-writerh.writerow(['drugbank_id', 'partner_id'] + target_actions_to_write)
+writer.writerow(['drugbank_id', 'partner_id', 'actions'])
+writerh.writerow(['drugbank_id', 'partner_id', 'actions'])
 
 for drugbank_id in drugs:
     for (target_id, target_actions) in drug2attrib[drugbank_id]['targets']:
-        actions = [
-            1 if action in target_actions else 0 for action in target_actions_to_write]
-
-        # writer.writerow([drugbank_id, target_id] + actions)
-        writer.writerow([drugbank_id, target_id] + target_actions)
+        target_actions = "#".join(target_actions)
+        writer.writerow([drugbank_id, target_id, target_actions])
         if template2attrib['targets'][target_id]['organism'] == 'Human' and template2attrib['targets'][target_id]['taxonomy_id'] == '9606':
-            # writerh.writerow([drugbank_id, target_id] + actions)
-            writerh.writerow([drugbank_id, target_id] + target_actions)
+            writerh.writerow([drugbank_id, target_id, target_actions])
 
 outf.close()
 outfh.close()
@@ -208,21 +203,15 @@ outfh = open('drug2enzyme_human.csv', 'w')
 writer = csv.writer(outf)
 writerh = csv.writer(outfh)
 
-enzyme_actions_to_write = ['substrate', 'inducer', 'inhibitor']
-writer.writerow(['drugbank_id', 'partner_id'] + enzyme_actions_to_write)
-writerh.writerow(['drugbank_id', 'partner_id'] + enzyme_actions_to_write)
+writer.writerow(['drugbank_id', 'partner_id', 'actions'])
+writerh.writerow(['drugbank_id', 'partner_id', 'actions'])
 
 for drugbank_id in drugs:
     for (enzyme_id, enzyme_actions) in drug2attrib[drugbank_id]['enzymes']:
-        actions = [
-            1 if action in enzyme_actions else 0 for action in enzyme_actions_to_write]
-
-        # writer.writerow([drugbank_id, enzyme_id] + actions)
-        writer.writerow([drugbank_id, enzyme_id] + enzyme_actions)
-
+        enzyme_actions = "#".join(enzyme_actions)
+        writer.writerow([drugbank_id, enzyme_id, enzyme_actions])
         if template2attrib['enzymes'][enzyme_id]['organism'] == 'Human' and template2attrib['enzymes'][enzyme_id]['taxonomy_id'] == '9606':
-            # writerh.writerow([drugbank_id, enzyme_id] + actions)
-            writerh.writerow([drugbank_id, enzyme_id] + enzyme_actions)
+            writerh.writerow([drugbank_id, enzyme_id, enzyme_actions])
 
 outf.close()
 outfh.close()
@@ -234,21 +223,15 @@ outfh = open('drug2transporter_human.csv', 'w')
 writer = csv.writer(outf)
 writerh = csv.writer(outfh)
 
-transporter_actions_to_write = ['substrate', 'inducer', 'inhibitor']
-writer.writerow(['drugbank_id', 'partner_id'] + transporter_actions_to_write)
-writerh.writerow(['drugbank_id', 'partner_id'] + transporter_actions_to_write)
+writer.writerow(['drugbank_id', 'partner_id', 'actions'])
+writerh.writerow(['drugbank_id', 'partner_id', 'actions'])
 
 for drugbank_id in drugs:
     for (transporter_id, transporter_actions) in drug2attrib[drugbank_id]['transporters']:
-        actions = [
-            1 if action in transporter_actions else 0 for action in transporter_actions_to_write]
-
-        # writer.writerow([drugbank_id, transporter_id] + actions)
-        writer.writerow([drugbank_id, transporter_id] + transporter_actions)
-
+        transporter_actions = "#".join(transporter_actions)
+        writer.writerow([drugbank_id, transporter_id, transporter_actions])
         if template2attrib['transporters'][transporter_id]['organism'] == 'Human' and template2attrib['transporters'][transporter_id]['taxonomy_id'] == '9606':
-            # writerh.writerow([drugbank_id, transporter_id] + actions)
-            writerh.writerow([drugbank_id, transporter_id] + transporter_actions)
+            writerh.writerow([drugbank_id, transporter_id, transporter_actions])
 
 outf.close()
 outfh.close()
@@ -264,10 +247,11 @@ writerh.writerow(['drugbank_id', 'partner_id', 'actions'])
 
 for drugbank_id in drugs:
     for (carrier_id, carrier_actions) in drug2attrib[drugbank_id]['carriers']:
-        writer.writerow([drugbank_id, carrier_id] + carrier_actions)
+        carrier_actions = "#".join(carrier_actions)
+        writer.writerow([drugbank_id, carrier_id, carrier_actions])
 
         if template2attrib['carriers'][carrier_id]['organism'] == 'Human' and template2attrib['carriers'][carrier_id]['taxonomy_id'] == '9606':
-            writerh.writerow([drugbank_id, carrier_id] + carrier_actions)
+            writerh.writerow([drugbank_id, carrier_id, carrier_actions])
 
 outf.close()
 outfh.close()
