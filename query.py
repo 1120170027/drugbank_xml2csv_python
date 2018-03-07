@@ -2,6 +2,7 @@
 import csv
 from collections import defaultdict
 
+
 class Query:
     def __init__(self):
         self.drugs = self.read("drugs.csv")
@@ -10,7 +11,7 @@ class Query:
         self.drug2enzyme = self.read_pair("drug2enzyme.csv")
         self.drug2carrier = self.read_pair("drug2carrier.csv")
         self.drug2transporter = self.read_pair("drug2transporter.csv")
-
+    
     def read(self, csvfile):
         tree = lambda: defaultdict(tree)
         retree = tree()
@@ -59,8 +60,19 @@ class Query:
         dic['transporter'] = transporter
         return dic
 
+    def tofile(self, drugids, filename):
+        csvfile = open(filename, 'wb')
+        writer = csv.writer(csvfile)
+        writer.writerow(["drugID", "drugname", "drugtype", "targets",
+                         "enzymes", "carriers", "transporters"])
+        for drugid in drugids:
+            dic = self.query(drugid)
+            writer.writerow([drugid, dic['drugname'], dic['drugtype'],
+                             dic['target'], dic['enzyme'], dic['carrier'],
+                             dic['transporter']])
+        csvfile.close()
+
 
 if __name__ == '__main__':
     q = Query()
-    print q.query("DB00004")
-
+    q.tofile(q.drugs.keys(), 'total.csv')
