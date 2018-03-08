@@ -43,6 +43,7 @@ class Query:
         """partner: partner_name, gene_name, uniprot_id"""
         drugname = self.drugs[drugid]['drugname']
         drugtype = self.drugs[drugid]['drug_type']
+        drugATC = self.drugs[drugid]['ATC_codes']
         target = [self.partner_protein[i][partner]
                   for i, j in self.drug2target[drugid].items()]
         enzyme = [self.partner_protein[i][partner]
@@ -54,6 +55,7 @@ class Query:
         dic = defaultdict(dict)
         dic['drugname'] = drugname
         dic['drugtype'] = drugtype
+        dic['drugATC'] = drugATC
         dic['target'] = target
         dic['enzyme'] = enzyme
         dic['carrier'] = carrier
@@ -61,6 +63,7 @@ class Query:
         return dic
 
     def tofile(self, drugids, filename):
+        N = 0
         csvfile = open(filename, 'wb')
         writer = csv.writer(csvfile)
         writer.writerow(["drugID", "drugname", "drugtype", "targets",
@@ -70,7 +73,11 @@ class Query:
             writer.writerow([drugid, dic['drugname'], dic['drugtype'],
                              dic['target'], dic['enzyme'], dic['carrier'],
                              dic['transporter']])
+            if dic['target'] != [] and dic['drugATC'] == '1':
+                print dic
+                N += 1
         csvfile.close()
+        print(N)
 
 
 if __name__ == '__main__':
