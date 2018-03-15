@@ -1,8 +1,12 @@
+# coding:utf-8
 import csv
 from collections import defaultdict
 from StringIO import StringIO
 
 from lxml import etree
+import sys
+reload(sys)
+sys.setdefaultencoding("utf-8")
 
 # Parse XML
 f = open('drugbank.xml', 'r')
@@ -39,6 +43,9 @@ sin = {
 
 tag_prefix = '{http://www.drugbank.ca}'
 
+fw = open("description.csv", 'w')
+writer = csv.writer(fw)
+
 for child in root:
     for s in child.findall(tag_prefix + 'drugbank-id'):
         if 'primary' in s.attrib:
@@ -61,6 +68,8 @@ for child in root:
         drug2attrib[drugbank_id]['ATC_codes'] = 0
     else:
         drug2attrib[drugbank_id]['ATC_codes'] = 1
+
+    writer.writerow([drugbank_id, child.find(tag_prefix + 'description').text])
 
     # Get targets, enzymes, transporters, carriers
     for template in ['targets', 'enzymes', 'transporters', 'carriers']:
@@ -142,6 +151,7 @@ for child in root:
                 template2attrib[template][template_id][
                     'hgnc_id'] = template_hgnc_id
 
+fw.close()
 print '\n'
 
 #######################################################################
