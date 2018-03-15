@@ -1,0 +1,24 @@
+graph s{
+    # background color
+    #bgcolor = aliceblue;
+
+    # drug node
+    node [color=skyblue, style=filled, fontsize=30];
+%s
+
+    # targets
+    node[color=mediumseagreen, style=filled, fontsize=30]
+%s
+    # enzymes
+    node[color=mediumseagreen, style=filled, fontsize=30]
+%s
+    # carriers
+    node[color=mediumseagreen, style=filled, fontsize=30]
+%s
+    # transporters
+    node[color=mediumseagreen, style=filled, fontsize=30]
+%s
+
+    edge [penwidth = 2, style = dashed];
+%s
+}

@@ -69,7 +69,7 @@ for child in root:
     else:
         drug2attrib[drugbank_id]['ATC_codes'] = 1
 
-    writer.writerow([drugbank_id, child.find(tag_prefix + 'description').text])
+    writer.writerow([drugbank_id, drugname, child.find(tag_prefix + 'description').text])
 
     # Get targets, enzymes, transporters, carriers
     for template in ['targets', 'enzymes', 'transporters', 'carriers']:
