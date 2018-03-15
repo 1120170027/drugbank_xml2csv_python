@@ -44,6 +44,7 @@ class Query:
         drugname = self.drugs[drugid]['drugname']
         drugtype = self.drugs[drugid]['drug_type']
         drugATC = self.drugs[drugid]['ATC_codes']
+        drugA = self.drugs[drugid]['approved']
         target = [self.partner_protein[i][partner]
                   for i, j in self.drug2target[drugid].items()]
         enzyme = [self.partner_protein[i][partner]
@@ -60,26 +61,50 @@ class Query:
         dic['enzyme'] = enzyme
         dic['carrier'] = carrier
         dic['transporter'] = transporter
+        dic['approved'] = drugA
         return dic
 
+    def dotfile(self, drugids, dotfile):
+        graphformat = open("template.dot").read()
+        nodes = []
+        edges = []
+        for drugid in drugids:
+            dic = self.query(drugid)
+            nodes.append((dic['drugname'], dic['drugtype']))
+            for terms in ['target', 'enzyme', 'carrier', 'transporter']:
+                for term in dic[terms]:
+                    nodes.append((term, terms))
+                    edges.append((dic['drugname'], term))
+        res = ([], [], [], [], [], [])
+        for node in nodes:
+            try:
+                ind = ['target', 'enzyme',
+                       'carrier', 'transporter'].index(node[1])
+                res[ind+1].append('"' + node[0] + '"')
+            except ValueError:
+                res[0].append('"' + node[0] + '"')
+        for edge in edges:
+            res[5].append('"{}" -- "{}"'.format(edge[0], edge[1]))
+
+        content = map(lambda t: "\n    " + ";\n    ".join(t) + ";\n", res)
+        with open(dotfile, 'w') as fw:
+            fw.write(graphformat % tuple(content))
+
     def tofile(self, drugids, filename):
-        N = 0
         csvfile = open(filename, 'wb')
         writer = csv.writer(csvfile)
         writer.writerow(["drugID", "drugname", "drugtype", "targets",
                          "enzymes", "carriers", "transporters"])
         for drugid in drugids:
             dic = self.query(drugid)
-            writer.writerow([drugid, dic['drugname'], dic['drugtype'],
-                             dic['target'], dic['enzyme'], dic['carrier'],
-                             dic['transporter']])
-            if dic['target'] != [] and dic['drugATC'] == '1':
-                print dic
-                N += 1
+            if dic['approved'] == '1':
+                writer.writerow([drugid, dic['drugname'], dic['drugtype'],
+                                 dic['target'], dic['enzyme'], dic['carrier'],
+                                 dic['transporter']])
         csvfile.close()
-        print(N)
 
 
 if __name__ == '__main__':
     q = Query()
     q.tofile(q.drugs.keys(), 'total.csv')
+    # q.dotfile(['DB00004', 'DB00005'], dotfile="graph.dot")
