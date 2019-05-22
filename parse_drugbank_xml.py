@@ -167,6 +167,7 @@ for drugbank_id in sorted(drug2attrib.keys()):
     else:
         drugs.append(drugbank_id)
 
+drugs = list(drug2attrib.keys())
 print len(drug2attrib), "drugs parsed from XML"
 print len(
     drugs), "drugs with at least 1 target/ enzyme/ transporter / carriers"
